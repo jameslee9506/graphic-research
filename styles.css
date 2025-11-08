@@ -27,7 +27,7 @@ html {
     --color-link-hover: #1d4ed8;
 
     /* Font */
-    --font-serif: 'Iowan Old Style BT', Georgia, serif;
+    --font-serif: 'Iowan Old Style', Georgia, serif;
 
     /* Font sizes */
     --text-base: 1rem;      /* 16px */
@@ -52,7 +52,8 @@ html {
     --spacing-20: 5rem;     /* 80px */
 
     /* Layout */
-    --max-width: 760px;
+    --max-width: 684px;
+    --padding-x: 0.75rem;  /* 12px */
 }
 
 /* ========================================
@@ -65,12 +66,13 @@ body {
     line-height: 1.75;
     color: var(--color-text);
     background-color: var(--color-background);
-    padding: var(--spacing-8) var(--spacing-4);
+    padding: 0;
 }
 
 .content-wrapper {
     max-width: var(--max-width);
     margin: 0 auto;
+    padding: var(--spacing-8) var(--padding-x);
 }
 
 .container {
@@ -94,6 +96,8 @@ h1 {
 
 h2 {
     font-size: var(--text-2xl);
+    margin-bottom: var(--spacing-4);
+    text-align: center;
 }
 
 h3 {
@@ -125,7 +129,7 @@ ul, ol {
 }
 
 li {
-    margin-bottom: var(--spacing-4);
+    margin-bottom: 0.5rem;
     line-height: 1.75;
 }
 
@@ -135,6 +139,7 @@ li {
 
 .header {
     padding: var(--spacing-14) 0;
+    text-align: center;
 }
 
 .logo-container {
@@ -156,48 +161,22 @@ li {
     margin: 0;
 }
 
+.tagline {
+    font-size: var(--text-base);
+    color: var(--color-text-light);
+    margin-top: var(--spacing-4);
+}
+
 /* ========================================
    Sections
    ======================================== */
 
 .section {
-    padding: var(--spacing-8) 0;
+    padding: var(--spacing-4) 0;
 }
 
-.section-title {
-    font-size: var(--text-2xl);
-    font-weight: var(--font-semibold);
-    margin-bottom: var(--spacing-6);
-}
-
-/* Introduction Section */
 .intro-section {
     padding-top: 0;
-}
-
-.intro-text {
-    font-size: var(--text-lg);
-    line-height: 1.75;
-    margin-bottom: var(--spacing-8);
-}
-
-/* Mission Section */
-.mission-section {
-
-}
-
-/* Research Section */
-.research-list {
-    list-style-type: disc;
-}
-
-.research-list li {
-    color: var(--color-text);
-}
-
-/* Image Section */
-.image-section {
-
 }
 
 .research-image {
@@ -219,7 +198,6 @@ li {
     font-style: italic;
 }
 
-/* Connect Section */
 .email-link {
     color: var(--color-link);
     text-decoration: underline;
@@ -237,21 +215,24 @@ li {
     border-top: 1px solid var(--color-border);
     padding-top: var(--spacing-8);
     margin-top: var(--spacing-20);
+    text-align: center;
 }
 
-.footer-content {
-
-}
-
-.footer-address {
-    font-size: var(--text-base);
-    line-height: 1.75;
+.footer-info {
+    font-size: 0.875rem;
+    color: var(--color-text-lighter);
     margin-bottom: var(--spacing-6);
 }
 
+.footer-info p {
+    margin-bottom: 0.25rem;
+    line-height: 1.6;
+}
+
 .footer-copyright {
-    font-size: 0.875rem;
+    font-size: 0.75rem;
     color: var(--color-text-lighter);
+    margin-top: var(--spacing-4);
 }
 
 /* ========================================
@@ -259,16 +240,16 @@ li {
    ======================================== */
 
 @media (min-width: 768px) {
-    body {
-        padding: var(--spacing-14) var(--spacing-8);
+    .content-wrapper {
+        padding: var(--spacing-14) var(--padding-x);
     }
 
     .section {
-        padding: var(--spacing-12) 0;
+        padding: var(--spacing-6) 0;
     }
 
     .header {
-        padding: var(--spacing-20) 0;
+        padding: var(--spacing-12) 0;
     }
 }
 
