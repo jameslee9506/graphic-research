@@ -28,6 +28,7 @@ html {
 
     /* Font */
     --font-serif: 'Iowan Old Style', Georgia, serif;
+    --font-display: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 
     /* Font sizes */
     --text-base: 1rem;      /* 16px */
@@ -35,6 +36,7 @@ html {
     --text-xl: 1.25rem;     /* 20px */
     --text-2xl: 1.5rem;     /* 24px */
     --text-3xl: 1.875rem;   /* 30px */
+    --text-4xl: 2.5rem;     /* 40px */
 
     /* Font weights */
     --font-normal: 400;
@@ -156,9 +158,13 @@ li {
 }
 
 .site-title {
-    font-size: var(--text-3xl);
+    font-family: var(--font-display);
+    font-size: var(--text-4xl);
     font-weight: var(--font-bold);
     margin: 0;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #6b7280;
 }
 
 .tagline {
@@ -197,12 +203,14 @@ li {
     font-style: italic;
 }
 
-.email-link {
+.email-link,
+.address-link {
     color: var(--color-link);
     text-decoration: underline;
 }
 
-.email-link:hover {
+.email-link:hover,
+.address-link:hover {
     color: var(--color-link-hover);
 }
 
