@@ -100,6 +100,7 @@ h2 {
     font-size: var(--text-2xl);
     margin-bottom: var(--spacing-4);
     text-align: center;
+    color: var(--color-text-light);
 }
 
 h3 {
@@ -139,9 +140,71 @@ li {
    Header
    ======================================== */
 
-.header {
-    padding: var(--spacing-14) 0;
+/* Mobile Header */
+.mobile-header {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--color-background);
+    z-index: 100;
+    height: 48px;
+    padding: 0 var(--padding-x);
+}
+
+.mobile-header-content {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+}
+
+.mobile-title {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: var(--font-bold);
+    margin: 0;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #6b7280;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.mobile-header.visible .mobile-title {
+    opacity: 1;
+}
+
+.menu-button {
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.menu-icon {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background-color: #6b7280;
+    transition: all 0.3s ease;
+}
+
+.menu-button:hover .menu-icon {
+    background-color: #374151;
+}
+
+/* Desktop Header */
+.desktop-header {
+    padding: var(--spacing-10) 0;
     text-align: center;
+    display: block;
 }
 
 .logo-container {
@@ -247,6 +310,10 @@ li {
    ======================================== */
 
 @media (min-width: 768px) {
+    .mobile-header {
+        display: none !important;
+    }
+
     .content-wrapper {
         padding: var(--spacing-14) var(--padding-x);
     }
@@ -255,14 +322,14 @@ li {
         padding: var(--spacing-6) 0;
     }
 
-    .header {
+    .desktop-header {
         padding: var(--spacing-12) 0;
     }
 }
 
-@media (max-width: 640px) {
-    html {
-        font-size: 87.5%; /* 14px */
+@media (max-width: 767px) {
+    .mobile-header {
+        display: block;
     }
 
     .logo {

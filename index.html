@@ -16,9 +16,21 @@
     </script>
 </head>
 <body>
+    <!-- Mobile Header -->
+    <header class="mobile-header" id="mobileHeader">
+        <div class="mobile-header-content">
+            <h1 class="mobile-title">GRAPHIC RESEARCH</h1>
+            <button class="menu-button" id="menuButton" aria-label="Menu">
+                <span class="menu-icon"></span>
+                <span class="menu-icon"></span>
+                <span class="menu-icon"></span>
+            </button>
+        </div>
+    </header>
+
     <div class="content-wrapper">
-        <!-- Header -->
-        <header class="header">
+        <!-- Desktop Header -->
+        <header class="header desktop-header">
             <div class="container">
                 <h1 class="site-title">Graphic-Research.com</h1>
             </div>
@@ -109,5 +121,24 @@
             </div>
         </footer>
     </div>
+
+    <script>
+        // Mobile header scroll effect
+        let lastScroll = 0;
+        const mobileHeader = document.getElementById('mobileHeader');
+        const scrollThreshold = 200; // 200px 이상 스크롤 시 나타남
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+
+            if (currentScroll > scrollThreshold) {
+                mobileHeader.classList.add('visible');
+            } else {
+                mobileHeader.classList.remove('visible');
+            }
+
+            lastScroll = currentScroll;
+        });
+    </script>
 </body>
 </html>
