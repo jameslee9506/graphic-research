@@ -31,6 +31,7 @@
     <div class="content-wrapper">
         <!-- Desktop Header -->
         <header class="header desktop-header">
+            <canvas id="dotGrid" class="dot-grid-canvas"></canvas>
             <div class="container">
                 <h1 class="site-title">Graphic<br>Research</h1>
             </div>
@@ -153,18 +154,121 @@
         // Mobile header scroll effect
         let lastScroll = 0;
         const mobileHeader = document.getElementById('mobileHeader');
-        const scrollThreshold = 200; // 200px 이상 스크롤 시 나타남
+        const scrollThreshold = 200;
 
         window.addEventListener('scroll', () => {
             const currentScroll = window.pageYOffset;
-
             if (currentScroll > scrollThreshold) {
                 mobileHeader.classList.add('visible');
             } else {
                 mobileHeader.classList.remove('visible');
             }
-
             lastScroll = currentScroll;
+        });
+
+        // Dot Grid Wave Animation with Mouse Interaction
+        const canvas = document.getElementById('dotGrid');
+        const ctx = canvas.getContext('2d');
+        let dots = [];
+        let mouse = { x: null, y: null };
+
+        const config = {
+            dotSize: 1.5,
+            dotSpacing: 30,
+            waveAmplitude: 8,
+            waveFrequency: 0.02,
+            waveSpeed: 0.015,
+            baseOpacity: 0.15,
+            maxOpacity: 0.4,
+            mouseRadius: 120,
+            mouseForce: 20
+        };
+
+        function initCanvas() {
+            const header = document.querySelector('.desktop-header');
+            canvas.width = header.offsetWidth;
+            canvas.height = header.offsetHeight;
+            createDots();
+        }
+
+        function createDots() {
+            dots = [];
+            const cols = Math.ceil(canvas.width / config.dotSpacing) + 1;
+            const rows = Math.ceil(canvas.height / config.dotSpacing) + 1;
+
+            for (let i = 0; i < cols; i++) {
+                for (let j = 0; j < rows; j++) {
+                    dots.push({
+                        baseX: i * config.dotSpacing,
+                        baseY: j * config.dotSpacing,
+                        x: i * config.dotSpacing,
+                        y: j * config.dotSpacing
+                    });
+                }
+            }
+        }
+
+        // Mouse interaction
+        const header = document.querySelector('.desktop-header');
+        header.addEventListener('mousemove', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            mouse.x = e.clientX - rect.left;
+            mouse.y = e.clientY - rect.top;
+        });
+        header.addEventListener('mouseleave', () => {
+            mouse.x = null;
+            mouse.y = null;
+        });
+
+        let time = 0;
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            time += config.waveSpeed;
+
+            dots.forEach(dot => {
+                const distX = dot.baseX - canvas.width / 2;
+                const distY = dot.baseY - canvas.height / 2;
+                const dist = Math.sqrt(distX * distX + distY * distY);
+
+                const wave = Math.sin(dist * config.waveFrequency - time) * config.waveAmplitude;
+                const opacity = config.baseOpacity + (Math.sin(dist * config.waveFrequency - time) + 1) / 2 * (config.maxOpacity - config.baseOpacity);
+
+                let targetX = dot.baseX + wave * (distX / dist || 0) * 0.3;
+                let targetY = dot.baseY + wave * (distY / dist || 0) * 0.3;
+
+                // Mouse repulsion
+                if (mouse.x !== null && mouse.y !== null) {
+                    const dx = targetX - mouse.x;
+                    const dy = targetY - mouse.y;
+                    const mouseDist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (mouseDist < config.mouseRadius) {
+                        const force = (1 - mouseDist / config.mouseRadius) * config.mouseForce;
+                        targetX += (dx / mouseDist) * force;
+                        targetY += (dy / mouseDist) * force;
+                    }
+                }
+
+                // Smooth transition
+                dot.x += (targetX - dot.x) * 0.15;
+                dot.y += (targetY - dot.y) * 0.15;
+
+                ctx.beginPath();
+                ctx.arc(dot.x, dot.y, config.dotSize, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(0, 0, 0, ${opacity})`;
+                ctx.fill();
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        initCanvas();
+        animate();
+
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(initCanvas, 200);
         });
     </script>
 </body>
