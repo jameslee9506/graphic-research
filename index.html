@@ -33,13 +33,9 @@
         <header class="header desktop-header">
             <canvas id="dotGrid" class="dot-grid-canvas"></canvas>
             <div class="container">
-                <h1 class="site-title">
-                    <span class="title-line">
-                        <span class="letter" style="--i:0">G</span><span class="letter" style="--i:1">r</span><span class="letter" style="--i:2">a</span><span class="letter" style="--i:3">p</span><span class="letter" style="--i:4">h</span><span class="letter" style="--i:5">i</span><span class="letter" style="--i:6">c</span>
-                    </span>
-                    <span class="title-line">
-                        <span class="letter" style="--i:7">R</span><span class="letter" style="--i:8">e</span><span class="letter" style="--i:9">s</span><span class="letter" style="--i:10">e</span><span class="letter" style="--i:11">a</span><span class="letter" style="--i:12">r</span><span class="letter" style="--i:13">c</span><span class="letter" style="--i:14">h</span>
-                    </span>
+                <h1 class="site-title fade-in">
+                    <span class="title-line">Graphic</span>
+                    <span class="title-line">Research</span>
                 </h1>
             </div>
         </header>
@@ -83,7 +79,7 @@
                     <ul class="research-list">
                         <li>Data Wrangling</li>
                         <li>Diffusion Models</li>
-                        <li>LLM Agents</li>
+                        <li>Agents Driven Development</li>
                     </ul>
                     <p>
                         These three areas aren't random picks. They connect. What we learn from one shapes how we approach the others.
@@ -112,6 +108,11 @@
                             <p class="product-description">Curated guide to the best cafes, restaurants, and spots in Seoul.</p>
                             <span class="product-link">Visit koreaplace.info →</span>
                         </a>
+                        <a href="https://horangplayer.com" target="_blank" rel="noopener noreferrer" class="product-card">
+                            <h3 class="product-name">HorangPlayer</h3>
+                            <p class="product-description">Free, open-source video player for macOS with native SwiftUI interface and mpv engine. Supports HDR, universal formats, and smart subtitles.</p>
+                            <span class="product-link">Visit horangplayer.com →</span>
+                        </a>
                     </div>
                 </div>
             </section>
@@ -139,6 +140,7 @@
                 <div class="footer-info">
                     <p><a href="mailto:contact@graphic-research.com" class="email-link">contact@graphic-research.com</a></p>
                     <p class="address">서울특별시 동대문구 고산자로 505, 2층-제이17호 (제기동)</p>
+                    <p>CEO: LEE SANG WON</p>
                     <p>Est. 2026</p>
                 </div>
                 <div class="footer-social">
@@ -176,7 +178,7 @@
             lastScroll = currentScroll;
         });
 
-        // Dot Grid Wave Animation with Mouse Interaction
+        // Dot Grid Background (static with mouse interaction)
         const canvas = document.getElementById('dotGrid');
         const ctx = canvas.getContext('2d');
         let dots = [];
@@ -185,9 +187,6 @@
         const config = {
             dotSize: 1.5,
             dotSpacing: 30,
-            waveAmplitude: 8,
-            waveFrequency: 0.02,
-            waveSpeed: 0.015,
             baseOpacity: 0.15,
             maxOpacity: 0.4,
             mouseRadius: 120,
@@ -218,7 +217,6 @@
             }
         }
 
-        // Mouse interaction
         const header = document.querySelector('.desktop-header');
         header.addEventListener('mousemove', (e) => {
             const rect = canvas.getBoundingClientRect();
@@ -230,23 +228,14 @@
             mouse.y = null;
         });
 
-        let time = 0;
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            time += config.waveSpeed;
 
             dots.forEach(dot => {
-                const distX = dot.baseX - canvas.width / 2;
-                const distY = dot.baseY - canvas.height / 2;
-                const dist = Math.sqrt(distX * distX + distY * distY);
+                let targetX = dot.baseX;
+                let targetY = dot.baseY;
+                let opacity = config.baseOpacity;
 
-                const wave = Math.sin(dist * config.waveFrequency - time) * config.waveAmplitude;
-                const opacity = config.baseOpacity + (Math.sin(dist * config.waveFrequency - time) + 1) / 2 * (config.maxOpacity - config.baseOpacity);
-
-                let targetX = dot.baseX + wave * (distX / dist || 0) * 0.3;
-                let targetY = dot.baseY + wave * (distY / dist || 0) * 0.3;
-
-                // Mouse repulsion
                 if (mouse.x !== null && mouse.y !== null) {
                     const dx = targetX - mouse.x;
                     const dy = targetY - mouse.y;
@@ -256,10 +245,10 @@
                         const force = (1 - mouseDist / config.mouseRadius) * config.mouseForce;
                         targetX += (dx / mouseDist) * force;
                         targetY += (dy / mouseDist) * force;
+                        opacity = config.baseOpacity + (1 - mouseDist / config.mouseRadius) * (config.maxOpacity - config.baseOpacity);
                     }
                 }
 
-                // Smooth transition
                 dot.x += (targetX - dot.x) * 0.15;
                 dot.y += (targetY - dot.y) * 0.15;
 
